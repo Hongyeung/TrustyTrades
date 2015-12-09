@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Reviewer:</strong>
+  <%= @general_review.reviewer_id %>
+</p>
+
+<p>
+  <strong>Reviewee:</strong>
+  <%= @general_review.reviewee_id %>
+</p>
+
+<p>
+  <strong>Rating:</strong>
+  <%= @general_review.rating %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @general_review.name %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @general_review.body %>
+</p>
+
+<%= link_to 'Edit', edit_general_review_path(@general_review) %> |
+<%= link_to 'Back', general_reviews_path %>

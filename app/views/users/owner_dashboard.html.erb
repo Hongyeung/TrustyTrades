@@ -1,0 +1,17 @@
+<h1>Search Bar</h1>
+<h2>List of Relevant Reviews</h2>
+<h2>Button for posting a job</h2>
+<%= link_to "New Job", new_user_job_path(@user) %>
+
+<%= form_tag(owner_dashboard_user_path(@user), :method => "get", id: "search-form") do %>
+<%= text_field_tag :search, params[:search], placeholder: "Search Contractors" %>
+<%= submit_tag "Search" %>
+<% end %>
+
+<% if @users.present? %>
+  <% @users.each do |user| %>
+    <%= link_to user.company_name, dashboard_user_path(user.id) %>
+  <% end %>
+<% else %>
+  <p>There ain't no results for ya!</p>
+<% end %>

@@ -1,0 +1,11 @@
+<%= @job.errors.full_messages.join(", ") %>
+
+<%= simple_form_for [@user, @job] do |f|  %>
+  <%#= f.input :budget, as: :money %>
+  <%= f.input :name %>
+  <%= f.input :description %>
+  <%= f.input :end_date %>
+  <%= f.association :tags, label_method: :kind, as: :check_boxes %>
+
+  <%= f.submit class: "btn btn-primary" %>
+<% end %>

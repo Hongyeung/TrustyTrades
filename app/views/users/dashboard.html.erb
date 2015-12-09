@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="db-title col-md-3">
+  <h1>Joe Blow's Roofing Company</h1>
+  </div>
+  <div class="db-portfolio col-md-6">Portfolio</div>
+  <div class="db-reviews col-md-3">
+  <h2>Average Rating</h2>
+  <%= @average_rating %>
+  </div>
+  <h2>Create a new review for this company</h2>
+  <%= render "/general_reviews/form" %>
+
+
+  <%= link_to "All Reviews", user_general_reviews_path(@user) %>
+  <% @reviews.each do |review| %>
+    <div class="well">
+    <h1><%= review.name %></h1>
+    <%= review.rating %>
+    <%= review.body %>
+    <br>
+    Created by:
+    <%= review.reviewer.first_name %>
+    <%= review.reviewer.last_name %>
+    <%#= link_to "delete", edit_user_general_review_path(@user, @general_review) %>
+  </div>
+<% end %>
+
+</div>

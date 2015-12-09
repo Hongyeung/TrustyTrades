@@ -1,0 +1,24 @@
+
+
+<h1>Your Reviews</h1>
+
+
+
+    <% @reviews_on_user.each do |general_review| %>
+    <div class="well">
+      <%= general_review.reviewer.first_name %>
+      <%= general_review.reviewer.last_name %>
+      <br><br>
+      <%= general_review.rating %>
+      <%= general_review.name %>
+      <%= general_review.body %>
+
+        <%#= link_to 'Destroy', general_review, method: :delete, data: { confirm: 'Are you sure?' } %>
+    </div>
+    <% end %>
+
+
+
+
+
+<%#= link_to 'New General review', new_general_review_path %>

@@ -1,0 +1,11 @@
+<h1><%= @job.name %></h1>
+<hr>
+<%= @job.description %>
+<h2>Category</h2>
+<ul>
+<% @job_tags.each do |tag| %>
+  <li><%=tag.kind%></li>
+<% end %>
+</ul>
+
+<h1>List all users by company name with association with the tag</h1>
