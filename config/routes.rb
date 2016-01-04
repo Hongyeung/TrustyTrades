@@ -1,25 +1,38 @@
 Rails.application.routes.draw do
 
-  resources :users, only: [:new, :create] do
+  resources :users do
     member do
       get "dashboard"
       get "owner_dashboard"
+      get "owner_jobs"
+      get "bidded_jobs"
     end
+    # collection do
+    #   get "search"
+    # end
     resources :general_reviews
     resources :jobs
   end
 
-  resources :user, only: [] do
-    resources :jobs do
-      resources :bid
-    end
+
+  # resources :search, only: [:index]
+
+
+  resources :jobs do
+    resources :bids
   end
+
+  resources :bids, only: [] do
+    resources :comments, only: [:new, :create, :show, :index]
+  end
+
 
   resources :sessions, only: [:new, :create] do
     delete :destroy, on: :collection
   end
 
   root 'welcome#index'
+
 
 
 

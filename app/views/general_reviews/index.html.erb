@@ -1,23 +1,19 @@
-
-
-<h1>Your Reviews</h1>
-
-
-
-    <% @reviews_on_user.each do |general_review| %>
-    <div class="well">
-      <%= general_review.reviewer.first_name %>
-      <%= general_review.reviewer.last_name %>
-      <br><br>
-      <%= general_review.rating %>
-      <%= general_review.name %>
-      <%= general_review.body %>
-
-        <%#= link_to 'Destroy', general_review, method: :delete, data: { confirm: 'Are you sure?' } %>
+<h1 class="text-align-center">Reviews for <%= @user.company_name %> </h1>
+<div style="height: 30px;"></div>
+<% @reviews_on_user.each do |review| %>
+  <div class="panel panel-default">
+        <div class="panel-heading"><h2><%= review.name %></h2></div>
+        <div class="panel-body">
+          <h2 class="pull-left"><%= review.body %></h2>
+          <h1 class="pull-right"><%= review.rating %><i class="fa fa-star"></i></h1>
+        </div>
+        <div class="panel-footer">
+          Created by:
+            <%= review.reviewer.first_name %>
+            <%= review.reviewer.last_name %>
+        </div>
     </div>
-    <% end %>
-
-
+  <% end %>
 
 
 

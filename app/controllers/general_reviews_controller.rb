@@ -2,46 +2,37 @@ class GeneralReviewsController < ApplicationController
 
 before_action :set_general_review, only: [:show, :edit, :update, :destroy]
 
-  # GET /general_reviews
-  # GET /general_reviews.json
   def index
-    user = User.find params[:user_id]
-    @reviews_on_user = user.inverse_general_reviews
+    @user = User.find params[:user_id]
+    @reviews_on_user = @user.inverse_general_reviews
   end
 
-  # GET /general_reviews/1
-  # GET /general_reviews/1.json
   def show
   end
 
-  # GET /general_reviews/new
   def new
     @general_review = GeneralReview.new
   end
 
-  # GET /general_reviews/1/edit
   def edit
-    # @user = User.find params[:user_id]
   end
 
-  # POST /general_reviews
-  # POST /general_reviews.json
   def create
     @general_review = GeneralReview.new(general_review_params)
     @user = User.find params[:user_id]
     @general_review.reviewer = current_user
     @general_review.reviewee = @user
     if current_user != @user
-      @general_review.save
-     redirect_to dashboard_user_path(@user), notice: 'General review was successfully created.'
+      if @general_review.save
+        redirect_to dashboard_user_path(@user), notice: 'General review was successfully created.'
+      else
+        redirect_to dashboard_user_path(@user), alert: 'Cannot review same company more than once.'
+      end
     else
-    redirect_to dashboard_user_path(@user), notice: 'You cannot review your own company'
+      redirect_to dashboard_user_path(@user), notice: 'You cannot review your own company.'
     end
-
   end
 
-  # PATCH/PUT /general_reviews/1
-  # PATCH/PUT /general_reviews/1.json
   def update
     respond_to do |format|
       if @general_review.update(general_review_params)
@@ -54,8 +45,6 @@ before_action :set_general_review, only: [:show, :edit, :update, :destroy]
     end
   end
 
-  # DELETE /general_reviews/1
-  # DELETE /general_reviews/1.json
   def destroy
     @general_review.destroy
     respond_to do |format|
@@ -65,12 +54,11 @@ before_action :set_general_review, only: [:show, :edit, :update, :destroy]
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+
     def set_general_review
       @general_review = GeneralReview.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def general_review_params
       params.require(:general_review).permit(:rating, :name, :body)
     end

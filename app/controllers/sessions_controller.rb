@@ -7,7 +7,11 @@ class SessionsController < ApplicationController
     user = User.find_by_email params[:email]
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
-      redirect_to dashboard_user_path(user), notice: "Logged in!"
+      if user.contractor
+        redirect_to dashboard_user_path(user), notice: "Logged in!"
+      else
+        redirect_to owner_dashboard_user_path(user), notice: "Logged in!"
+      end
     else
       flash[:alert] = "Wrong credentials!"
       render :new
@@ -18,5 +22,5 @@ class SessionsController < ApplicationController
     session[:user_id] = nil
     redirect_to root_path, notice: "Logged Out!"
   end
-  
+
 end

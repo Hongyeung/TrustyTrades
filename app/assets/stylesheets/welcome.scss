@@ -1,3 +1,12 @@
 // Place all the styles related to the welcome controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.welcome-logo {
+  margin-top: 13px;
+  margin-bottom: 37px;
+  background-image: image-url('handwerker.gif');
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 218px;
+  height: 197px;
+}

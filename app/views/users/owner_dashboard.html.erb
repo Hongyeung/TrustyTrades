@@ -1,17 +1,50 @@
-<h1>Search Bar</h1>
-<h2>List of Relevant Reviews</h2>
-<h2>Button for posting a job</h2>
-<%= link_to "New Job", new_user_job_path(@user) %>
 
-<%= form_tag(owner_dashboard_user_path(@user), :method => "get", id: "search-form") do %>
-<%= text_field_tag :search, params[:search], placeholder: "Search Contractors" %>
-<%= submit_tag "Search" %>
-<% end %>
+<h1 class="text-align-center">Welcome</h1>
+<div style="height: 20px;"></div>
+<div class="flex-justify-center">
+  <div class="box outline">
+    <div class="text-align-center">
+      <h1 style="font-size: 25px; text-align: center;">Your Recent Jobs!</h1>
+      <hr>
+      <% @related_jobs_display.each do |job| %>
+        <div class="well">
+          <div class="pull-left"><%= link_to job.name, user_job_path(@user, job.id) %></div>
+          <div style="height: 12px;"></div>
+        </div>
+      <% end %>
+    </div>
+  </div>
 
-<% if @users.present? %>
-  <% @users.each do |user| %>
-    <%= link_to user.company_name, dashboard_user_path(user.id) %>
-  <% end %>
-<% else %>
-  <p>There ain't no results for ya!</p>
-<% end %>
+  <div class="box outline">
+    <h1 style="font-size: 25px; text-align: center;">Post a Job!</h1>
+    <hr>
+    <div class="flex-justify-center">
+      <%= link_to "New Job", new_user_job_path(@user), class: "btn btn-primary btn-lg" %>
+    </div>
+  </div>
+</div>
+
+<div class="flex-justify-center">
+  <div class="rectangle outline">
+    <h1 style="font-size: 25px; text-align: center;">Search by Trade or Company Name!</h1><hr>
+    <div class="text-align-center">
+      <%= form_tag(owner_dashboard_user_path, :method => "get", id: "search-form") do %>
+        <%= text_field_tag :search, params[:search] %>
+        <%= submit_tag "Search", class: "btn btn-primary" %>
+      <% end %>
+      <br>
+      <% if @users.present? %>
+        <% @users_sorted_by_avg.uniq.each do |user| %>
+          <div class="well">
+            <div class="pull-left"><%= link_to user.company_name, dashboard_user_path(user.id) %></div>
+            <div class="pull-right"><p>Average Rating: &nbsp<%= user.average_general_reviews.round(1) %></p></div>
+            <div style="height: 14px;"></div>
+          </div>
+        <% end %>
+      <% else %>
+        <br>
+        <p>There ain't no results for ya!</p>
+      <% end %>
+    </div>
+  </div>
+</div>

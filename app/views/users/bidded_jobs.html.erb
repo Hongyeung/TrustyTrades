@@ -1,0 +1,17 @@
+<% if @user.bids.present? %>
+  <div class="flex-justify-center">
+    <div class="rectangle outline ">
+      <h3 class="text-align-center">Your Bids</h3>
+      <hr>
+      <% @user.bids.each do |bid| %>
+        <div class="well">
+          <div class="pull-left"><%= link_to bid.job.name, job_path(bid.job) %></div>
+          <div class="pull-right"><p>$<%= bid.amount %></p></div>
+          <div style="height: 14px;"></div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <h3>You got no bids ol' PAL!</h3>
+<% end %>

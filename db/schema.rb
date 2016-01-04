@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151209054233) do
+ActiveRecord::Schema.define(version: 20151215033446) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,7 +25,19 @@ ActiveRecord::Schema.define(version: 20151209054233) do
   end
 
   add_index "bids", ["job_id"], name: "index_bids_on_job_id", using: :btree
+  add_index "bids", ["user_id", "job_id"], name: "index_bids_on_user_id_and_job_id", unique: true, using: :btree
   add_index "bids", ["user_id"], name: "index_bids_on_user_id", using: :btree
+
+  create_table "comments", force: :cascade do |t|
+    t.text     "body"
+    t.integer  "contractor_id"
+    t.integer  "bid_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "comments", ["bid_id"], name: "index_comments_on_bid_id", using: :btree
+  add_index "comments", ["contractor_id"], name: "index_comments_on_contractor_id", using: :btree
 
   create_table "contractor_taggings", force: :cascade do |t|
     t.integer  "tag_id"
@@ -58,13 +70,16 @@ ActiveRecord::Schema.define(version: 20151209054233) do
   add_index "job_taggings", ["tag_id"], name: "index_job_taggings_on_tag_id", using: :btree
 
   create_table "jobs", force: :cascade do |t|
-    t.money    "budget",      scale: 2
     t.string   "name"
     t.text     "description"
     t.datetime "end_date"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.integer  "user_id"
+    t.integer  "budget"
+    t.string   "address"
+    t.float    "longitude"
+    t.float    "latitude"
   end
 
   add_index "jobs", ["user_id"], name: "index_jobs_on_user_id", using: :btree
@@ -85,10 +100,18 @@ ActiveRecord::Schema.define(version: 20151209054233) do
     t.string   "password_digest"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.string   "avatar"
+    t.string   "image_one"
+    t.string   "image_two"
+    t.string   "image_three"
+    t.string   "address"
+    t.float    "longitude"
+    t.float    "latitude"
   end
 
   add_foreign_key "bids", "jobs"
   add_foreign_key "bids", "users"
+  add_foreign_key "comments", "bids"
   add_foreign_key "contractor_taggings", "tags"
   add_foreign_key "contractor_taggings", "users"
   add_foreign_key "job_taggings", "jobs"

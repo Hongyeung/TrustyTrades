@@ -1,0 +1,29 @@
+<%#= link_to "Create a Comment", new_bid_comment_path(@bid) %>
+<div class="flex-justify-center">
+  <div style="padding: 40px;" class="rectangle outline ">
+    <%= link_to "Back", job_path(@bid.job) %>
+    <% if @bid.contractor != current_user %>
+      <h3 class="text-align-center">Conversation with <%= @bid.contractor.company_name %></h3>
+    <% else %>
+      <h3 class="text-align-center">Conversation with <%= @bid.job.user.first_name %> <%= @bid.job.user.last_name %></h3>
+    <% end %>
+    <hr>
+      <div class="flex-justify-center">
+        <%= link_to "Create a Comment","javascript:void(0);", id:"comment", class: "btn btn-md btn-primary" %>
+      </div>
+      <div style="height: 30px;"></div>
+      <% @bid.comments.each do |comment| %>
+      <div class="well">
+        <div class="pull-left"><%=comment.body %></div>
+          <% if comment.contractor.contractor %>
+            <div class="pull-right">From: <%= comment.contractor.company_name %></div>
+          <% else %>
+            <div class="pull-right">From: <%= comment.bid.job.user.first_name%></div>
+          <% end %>
+        <div style="height: 15px;"></div>
+      </div>
+      <% end %>
+
+      <%= render "new_comment" %>
+    </div>
+  </div>

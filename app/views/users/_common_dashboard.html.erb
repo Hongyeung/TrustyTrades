@@ -1,0 +1,144 @@
+<div class="dash-title">
+  <h1 style="text-align: center"><%= @user.company_name.capitalize %></h1>
+</div>
+<div class="marquee-row">
+  <div class="dash-map outline">
+    <div id="map" style='height: 310px; width: 310px;'></div>
+  </div>
+  <div class="marquee-row-right">
+    <div class="dash-images">
+      <div class="dash-image">
+        <% if @user.image_one.present?%>
+          <%= image_tag @user.image_one.url(:large) %>
+        <% else %>
+          <div style="height: 90px;"></div>
+          <div class="flex-justify-center">
+            <p>
+              <%= link_to "Upload an Image", edit_user_path(@user)%>
+            </p>
+          </div>
+        <% end %>
+      </div>
+      <div class="dash-image">
+        <% if @user.image_two.present?%>
+          <%= image_tag @user.image_two.url(:large) %>
+        <% else %>
+        <div style="height: 90px;"></div>
+        <div class="flex-justify-center">
+          <p>
+            <%= link_to "Upload an Image", edit_user_path(@user)%>
+          </p>
+        </div>
+        <% end %>
+      </div>
+      <div class="dash-image">
+        <% if @user.image_three.present?%>
+          <%= image_tag @user.image_three.url(:large) %>
+        <% else %>
+        <div style="height: 90px;"></div>
+        <div class="flex-justify-center">
+          <p>
+            <%= link_to "Upload an Image", edit_user_path(@user)%>
+          </p>
+        </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="dash-review outline">
+      <% if current_user != @user %>
+        <%= link_to "Review this Company!","javascript:void(0);", id:"general_review", class: "pull-right padding-important " %>
+        <%= render "/general_reviews/form" %>
+      <% end %>
+      <div class="text">
+        <h2 style="font-size: 30px;">Average Rating</h2>
+        <% if @average_rating %>
+          <p style="font-size: 20px; padding-top: 7px;">
+             These guys are rated <%= @average_rating.round(1)%> out of 5!
+          </p>
+        <% else %>
+          <p style="font-size: 20px; padding-top: 7px;">
+            There are no ratings for this company yet!
+          </p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="marquee-row-two">
+  <div class="info-box">
+    <div class="job-text">
+      <h2 style="font-size: 18px;"><%= @user.address %></h2>
+      <hr>
+    </div>
+    <div class="job-text">
+      <h2 style="font-size: 18px;"><%= @user.email %></h2>
+      <hr>
+    </div>
+    <div class="job-text">
+      <h2 style="font-size: 18px;"><%= @user.phone_number %></h2>
+      <hr>
+    </div>
+    <div class="job-text">
+      <% @user.tags.each do |tag| %>
+        <h2 style="font-size: 18px;"><%= tag.kind %></h2>
+      <% end %>
+      <hr>
+    </div>
+    <div class="job-text">
+      <%= link_to "Edit", edit_user_path(@user), class: "btn btn-primary" %>
+    </div>
+  </div>
+  <div class="job-box">
+  <h2 class="pull-right"><%= link_to "All Jobs", user_jobs_path(@user)%></h2>
+    <div class="job-text">
+      <h2 style="font-size: 18px;">You might be interested in some of these jobs!</h2>
+      <hr>
+      <% @related_jobs_to_user_display.each do |job| %>
+        <div class="well">
+          <div class="pull-left"><%= link_to job.name, job_path(job.id) %></div>
+          <div class="pull-right">Budget: $<%= job.budget %></div>
+          <div style="height: 14px;"></div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<% if @reviews.any? %>
+  <div style="margin: 40px;" class="flex-justify-center">
+      <%= link_to "All Reviews", user_general_reviews_path(@user), style: "font-size: 30px;", class: "header-font" %>
+  </div>
+
+    <% @reviews.each do |review| %>
+        <div class="panel panel-default">
+          <div class="panel-heading"><h2><%= review.name %></h2></div>
+          <div class="panel-body">
+            <h2 class="pull-left"><%= review.body %></h2>
+            <h3 class="pull-right"><%= review.rating %><i class="fa fa-star"></i></h3>
+          </div>
+          <div class="panel-footer">
+            Created by:
+              <%= review.reviewer.first_name %>
+              <%= review.reviewer.last_name %>
+          </div>
+      </div>
+    <% end %>
+<% end %>
+
+<div style="height: 250px;"></div>
+
+<script type="text/javascript">
+  handler = Gmaps.build('Google');
+  handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+    markers = handler.addMarkers([
+      {
+        "lat": <%= @user.latitude %>,
+        "lng": <%= @user.longitude %>,
+        "infowindow": "<%= @user.address %>"
+      }
+    ]);
+    handler.bounds.extendWith(markers);
+    handler.fitMapToBounds();
+  });
+</script>

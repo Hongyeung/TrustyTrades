@@ -16,6 +16,14 @@ gem 'bcrypt', '~> 3.1.7'
 gem "faker"
 gem 'cancancan', '~> 1.10'
 gem 'simple_form'
+gem 'chosen-rails'
+gem 'carrierwave'
+gem 'mini_magick'
+gem 'geocoder'
+gem 'underscore-rails'
+gem 'gmaps4rails'
+
+
 
 
 

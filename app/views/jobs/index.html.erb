@@ -1,0 +1,14 @@
+<div style="height: 10px;"></div>
+<div class="flex-justify-center">
+  <div style="padding: 40px;" class="rectangle outline ">
+    <h1 class="text-align-center">All Jobs in your Field!</h1>
+    <hr>
+    <% @related_jobs_to_user.each do |job| %>
+      <div class="well">
+        <div class="pull-left"><%= link_to job.name, job_path(job.id) %></div>
+        <div class="pull-right">Budget: $<%= job.budget %></div>
+        <div style="height: 14px;"></div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -7,12 +7,14 @@ before_action :authenticate_user, only: [:dashboard, :owner_dashboard]
   end
 
   def create
-    user_params = params.require(:user).permit(:first_name, :last_name, :email,
-                                               :phone_number, :password, {tag_ids: []}, :password_confirmation)
     @user = User.new user_params
     if @user.save
       session[:user_id] = @user.id
-      redirect_to dashboard_user_path(@user), notice: "account created!"
+      if @user.contractor
+        redirect_to dashboard_user_path(@user), notice: "account created!"
+      else
+        redirect_to owner_dashboard_user_path(@user), notice: "account created!"
+      end
     else
       render :new
     end
@@ -23,32 +25,63 @@ before_action :authenticate_user, only: [:dashboard, :owner_dashboard]
     @general_review = GeneralReview.new
     @reviewers = @user.reviewers
     @reviews = @user.inverse_general_reviews.limit(3).order(rating: :desc)
+    @average_rating = @user.average_general_reviews
+    @related_jobs_to_user = @user.related_jobs
+    @related_jobs_to_user_display = @user.related_jobs.order(budget: :desc).first(3)
 
-    ratings = []
-    @reviews.each do |review|
-      ratings << review.rating
-    end
-
-    rating_sum = 0
-    ratings.each do |rating|
-      rating_sum = rating_sum + rating
-    end
-
-    if ratings.length == 0
-      @average_rating = 0
+    if @user == current_user && @user.is_a_contractor?
+      render :contractor_dashboard
     else
-      @average_rating = (rating_sum.to_f / ratings.length).to_f
+      render :dashboard
     end
-
   end
 
   def owner_dashboard
     @user = User.find params[:id]
+    @related_jobs_display = @user.jobs.order(budget: :desc).first(3)
 
     if params[:search].present?
       @users = User.search(params[:search])
+      @users_sorted_by_avg = @users.sort_by {|user| user.average_general_reviews}.reverse
     end
+  end
 
+  def owner_jobs
+    @user = User.find params[:id]
+  end
+
+  def bidded_jobs
+    @user = User.find params[:id]
+  end
+
+  def edit
+    @user = User.find params[:id]
+  end
+
+  def update
+    @user = User.find params[:id]
+    if current_user == @user
+      if @user.update user_params
+        redirect_to dashboard_user_path(@user), notice: "Account updated!"
+      else
+        redirect_to root_path, notice: "Couldn't update your account!"
+      end
+    else
+      redirect_to dashboard_user_path(@user), alert: "You can only edit your own account!"
+    end
+  end
+
+  def destroy
+  end
+
+  private
+
+  def user_params
+    user_params = params.require(:user).permit(:company_name, :address, :avatar,
+                                               :image_one, :image_two, :image_three,
+                                               :contractor, :first_name, :last_name,
+                                               :email, :phone_number, :password,
+                                               {tag_ids: []}, :password_confirmation)
   end
 
 

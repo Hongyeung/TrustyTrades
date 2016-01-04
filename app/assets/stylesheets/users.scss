@@ -1,14 +1,100 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-.db-title {
-  height: 300px;
+
+.marquee-row {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
-.db-portfolio {
-  height: 300px;
+.outline {
+  border: 1px solid;
+  border-radius: 5px;
+  margin: 5px;
 }
 
-.db-reviews {
+.dash-map {
+  width: 315;
+  height: 315px;
+  justify-content: center;
+}
+
+.dash-images {
+  width: 800px;
+  height: 220px;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 5px;
+}
+
+.dash-image {
+  height: 200px;
+  width: 260px;
+  border: 1px solid;
+  margin-top: 20px;
+  border-radius: 5px;
+
+}
+
+.dash-image img {
+  width: 260px;
+  height: 200px;
+  padding: 5px;
+}
+
+.text {
+  padding-top: 5px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  text-align: center;
+}
+
+.dash-review {
+  height: 100px;
+  width: 800px;
+}
+
+.marquee-row-two {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 1132px;
+
+}
+
+.info-box {
   height: 300px;
+  width: 500px;
+  border: 1px solid;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 10px;
+}
+
+.job-box {
+  height: 300px;
+  width: 700px;
+  border: 1px solid;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 10px;
+}
+
+.job-text {
+  margin: 10px;
+
+}
+
+.padding-important {
+  padding-top: 5px!important;
+  padding-right: 5px!important;
+}
+
+ul.chzn-choices {
+  li.search-field {
+    input {height: 25px !important;}
+  }
 }

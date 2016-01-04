@@ -1,0 +1,14 @@
+<%# Rails will look at @bid if @bid is persisted (meaning saved in the database with id) then the form will submit to the `update` action. If @bid is not persisted (i.e. it's just @bid Bid.new) then it will submit to the `create` action %>
+
+<div class="flex-justify-center">
+  <div style="padding: 40px;" class="rectangle outline ">
+    <h1 class="text-align-center">Bid!</h1>
+    <hr>
+    <%= simple_form_for [@job, @bid] do |f| %>
+      <%= f.input :amount %>
+      <div class="flex-justify-center">
+        <%= f.submit current_user.has_bid_for_job?(@job) ? "Update Bid" : "Create Bid", class: "btn btn-primary btn-lg" %>
+      </div>
+    <% end %>
+  </div>
+</div>
