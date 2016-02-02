@@ -20,21 +20,3 @@ class Job < ActiveRecord::Base
     User.joins(:contractor_taggings).where("contractor_taggings.tag_id IN (?)", job_tag_id_array).uniq
   end
 end
-
-# user_tag_ids = []
-# @job_tags.each do |tag|
-#   user_tag_ids << tag.id
-# end
-#
-# @tags = []
-# user_tag_ids.each do |ids|
-#   tag = Tag.find_by_id(ids)
-#   @tags << tag
-# end
-#
-# @users_associate_tags = []
-# @tags.each do |tag|
-#   tag.users.each do |user|
-#     @users_associate_tags << user
-#   end
-# end
